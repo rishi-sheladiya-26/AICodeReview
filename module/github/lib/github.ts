@@ -261,6 +261,6 @@ export async function postReviewComment(
     owner,
     repo,
     issue_number: prNumber,
-    body: `## Code Review By AI \n\n ${review} \n\n\n *This comment has been written by AI @PriyanshuValiya*`,
+    body: `## Code Review By AI \n\n ${review} \n\n\n *This comment has been written by AI from RepoPilot Team.*`,
   });
 }

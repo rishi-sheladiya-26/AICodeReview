@@ -386,23 +386,23 @@ export default function LandingPage() {
           <div className="flex flex-col sm:flex-row justify-between items-center gap-4 pt-8 border-t text-sm text-muted-foreground">
             <p>
               All rights reserved{" "}
-              <a href="https://priyanshuvaliya.dev">@PriyanshuValiya</a>
+              <a href="https://repopilot.team">@RepoPilotTeam</a>
             </p>
             <div className="flex gap-6">
               <Link
-                href="https://priyanshuvaliya.dev"
+                href="https://repopilot.team"
                 className="hover:text-primary transition-colors"
               >
-                Portfolio
+                Website
               </Link>
               <Link
-                href="https://github.com/PriyanshuValiya"
+                href="https://github.com/repopilot-team"
                 className="hover:text-primary transition-colors"
               >
                 GitHub
               </Link>
               <Link
-                href="https://www.linkedin.com/in/priyanshu-valiya19012006"
+                href="https://www.linkedin.com/company/repopilot-team"
                 className="hover:text-primary transition-colors"
               >
                 LinkedIn

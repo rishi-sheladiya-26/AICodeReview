@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { stripe } from "@/lib/stripe";
+import { getStripe } from "@/lib/stripe";
 import prisma from "@/lib/db";
 import { auth } from "@/lib/auth";
 import { headers } from "next/headers";
@@ -19,6 +19,15 @@ export async function POST() {
 
   if (!user) {
     return NextResponse.json({ error: "User not found" }, { status: 404 });
+  }
+
+  const stripe = getStripe();
+
+  if (!stripe) {
+    return NextResponse.json(
+      { error: "Stripe is not configured. Add STRIPE_SECRET_KEY to the environment." },
+      { status: 500 }
+    );
   }
 
   let customerId = user.stripeCustomerId;

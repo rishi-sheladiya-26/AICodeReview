@@ -12,8 +12,8 @@ export const scheduleRepoSummaries = inngest.createFunction(
   },
   { cron: "TZ=America/New_York 0 10 * * 1" },
   async ({ step, logger }) => {
-    const DEFAULT_CC = "valiyapriyansukumar@gmail.com";
-    
+    const DEFAULT_CC = "hello@repopilot.team";
+
     logger.info("Starting weekly repository summaries schedule...");
     
     // Fetch all repositories with their clients

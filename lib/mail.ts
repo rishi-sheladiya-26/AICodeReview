@@ -14,8 +14,8 @@ export async function sendMail({
   to,
   subject,
   html,
-  from = process.env.EMAIL_FROM || "noreply@notifications.priyanshuvaliya.dev",
-  cc, 
+  from = process.env.EMAIL_FROM || "noreply@notifications.repopilot.team",
+  cc,
 }: SendMailOptions) { 
   try {
     const emailPayload = {
@@ -104,7 +104,7 @@ export function wrapEmailTemplate(content: string, repoName: string) {
                             </p>
 
                             <p style="margin: 0; color: #9ca3af; font-size: 11px; text-align: left;">
-                                &copy; ${new Date().getFullYear()} AI Code Reviewer. All rights reserved @PriyanshuValiya. <a href="https://portfolio.priyanshuvaliya.me" style="color: #9ca3af; text-decoration: underline;">Privacy Policy</a> | <a href="#" style="color: #9ca3af; text-decoration: underline;">Unsubscribe</a>
+                                &copy; ${new Date().getFullYear()} RepoPilot Team. All rights reserved. <a href="https://repopilot.team" style="color: #9ca3af; text-decoration: underline;">Privacy Policy</a> | <a href="#" style="color: #9ca3af; text-decoration: underline;">Unsubscribe</a>
                             </p>
                         </td>
                     </tr>

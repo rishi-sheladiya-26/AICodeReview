@@ -4,14 +4,18 @@ import prisma from "./db";
 
 export const auth = betterAuth({
   database: prismaAdapter(prisma, {
-    provider: "postgresql", 
+    provider: "postgresql",
   }),
   socialProviders: {
     github: {
       clientId: process.env.GITHUB_CLIENT_ID!,
       clientSecret: process.env.GITHUB_CLIENT_SECRET,
-      scope: ["repo"]
+      scope: ["repo"],
     },
   },
-  trustedOrigins: ["https://RepoPilot.priyanshuvaliya.dev"],
+  trustedOrigins: [
+    "http://localhost:3000",
+    "https://localhost:3000",
+    "https://repopilot.team",
+  ],
 });

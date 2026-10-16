@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
-import { getStripe } from "@/lib/stripe";
-import prisma from "@/lib/db";
 import { auth } from "@/lib/auth";
+import prisma from "@/lib/db";
+import { getRazorpay } from "@/lib/razorpay";
 import { headers } from "next/headers";
 
 export async function POST() {
@@ -21,44 +21,37 @@ export async function POST() {
     return NextResponse.json({ error: "User not found" }, { status: 404 });
   }
 
-  const stripe = getStripe();
+  const razorpay = getRazorpay();
 
-  if (!stripe) {
+  if (!razorpay) {
     return NextResponse.json(
-      { error: "Stripe is not configured. Add STRIPE_SECRET_KEY to the environment." },
+      {
+        error:
+          "Razorpay is not configured. Add RAZORPAY_KEY_ID and RAZORPAY_KEY_SECRET to the environment.",
+      },
       { status: 500 }
     );
   }
 
-  let customerId = user.stripeCustomerId;
+  const amount = Number(process.env.RAZORPAY_PRO_AMOUNT || "14900");
+  const currency = process.env.RAZORPAY_CURRENCY || "INR";
 
-  if (!customerId) {
-    const customer = await stripe.customers.create({
+  const order = await razorpay.orders.create({
+    amount,
+    currency,
+    receipt: `repopilot_pro_${user.id}`,
+    notes: {
+      userId: user.id,
       email: user.email,
-      name: user.name,
-      metadata: { userId: user.id },
-    });
-
-    customerId = customer.id;
-
-    await prisma.user.update({
-      where: { id: user.id },
-      data: { stripeCustomerId: customerId },
-    });
-  }
-
-  const checkoutSession = await stripe.checkout.sessions.create({
-    mode: "subscription",
-    customer: customerId,
-    line_items: [
-      {
-        price: process.env.STRIPE_PRO_PRICE_ID!,
-        quantity: 1,
-      },
-    ],
-    success_url: `${process.env.NEXT_PUBLIC_APP_URL}/dashboard`,
-    cancel_url: `${process.env.NEXT_PUBLIC_APP_URL}/dashboard`,
+      plan: "PRO",
+    },
   });
 
-  return NextResponse.json({ url: checkoutSession.url });
+  return NextResponse.json({
+    key: process.env.RAZORPAY_KEY_ID,
+    orderId: order.id,
+    amount: order.amount,
+    currency: order.currency,
+    receipt: order.receipt,
+  });
 }

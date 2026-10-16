@@ -70,12 +70,23 @@ function SubscriptionPage() {
     fetchUserTier();
   }, []);
 
+  useEffect(() => {
+    const script = document.createElement("script");
+    script.src = "https://checkout.razorpay.com/v1/checkout.js";
+    script.async = true;
+    document.body.appendChild(script);
+
+    return () => {
+      document.body.removeChild(script);
+    };
+  }, []);
+
   async function handleUpgrade() {
     setLoading(true);
     setError(null);
 
     try {
-      const res = await fetch("/api/stripe/checkout", {
+      const res = await fetch("/api/razorpay/checkout", {
         method: "POST",
       });
 
@@ -94,11 +105,37 @@ function SubscriptionPage() {
 
       const data = await res.json();
 
-      if (!data.url) {
-        throw new Error("Stripe checkout URL missing");
+      if (!data?.orderId || !data?.key) {
+        throw new Error("Razorpay order is missing");
       }
 
-      window.location.href = data.url;
+      const Razorpay = (window as any).Razorpay;
+
+      if (!Razorpay) {
+        throw new Error("Razorpay checkout script is still loading. Please try again.");
+      }
+
+      const razorpay = new Razorpay({
+        key: data.key,
+        amount: data.amount,
+        currency: data.currency,
+        name: "RepoPilot",
+        description: "RepoPilot PRO Membership",
+        order_id: data.orderId,
+        theme: {
+          color: "#2563eb",
+        },
+        handler: () => {
+          window.location.href = `${window.location.origin}/dashboard?payment=success`;
+        },
+        modal: {
+          ondismiss: () => {
+            setLoading(false);
+          },
+        },
+      });
+
+      razorpay.open();
     } catch (err: any) {
       setError(err.message || "An unexpected error occurred");
       setLoading(false);
@@ -223,7 +260,7 @@ function SubscriptionPage() {
                     ) : loading ? (
                       <span className="flex items-center justify-center gap-2">
                         <Loader2 className="w-4 h-4 animate-spin" />
-                        Redirecting to Stripe...
+                        Redirecting to Razorpay...
                       </span>
                     ) : (
                       "Upgrade to PRO"

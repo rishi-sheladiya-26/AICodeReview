@@ -1,6 +1,6 @@
 # RepoPilot : AICodeReviewer
 
-AICodeReview is a developer-focused web application that automates repository analytics and AI-assisted code review workflows. It combines a modern Next.js UI, background job processing, AI retrieval-augmented-generation (RAG) with a vector store, GitHub integrations, subscription billing via Stripe, and a Prisma-backed relational database to provide teams with automated summaries, review suggestions, and searchable repository context.
+AICodeReview is a developer-focused web application that automates repository analytics and AI-assisted code review workflows. It combines a modern Next.js UI, background job processing, AI retrieval-augmented-generation (RAG) with a vector store, GitHub integrations, subscription billing via Razorpay, and a Prisma-backed relational database to provide teams with automated summaries, review suggestions, and searchable repository context.
 
 ## Key features
 
@@ -8,18 +8,18 @@ AICodeReview is a developer-focused web application that automates repository an
 - AI-assisted review generation using embeddings + vector search for relevant context.
 - GitHub integrations (OAuth / App) and webhook handling for repo events.
 - User authentication, repository management and per-user dashboards.
-- Subscription billing and checkout flows via Stripe.
+- Subscription billing and checkout flows via Razorpay.
 - Background processing and event orchestration using Inngest.
 
 ## High-level architecture
 
 - Frontend: Next.js (app router) — UI, public pages, and protected dashboard under `app/`.
-- API & server: Next.js API routes (under `app/api/`) for webhooks, Stripe endpoints, and server actions.
+- API & server: Next.js API routes (under `app/api/`) for webhooks, Razorpay checkout endpoints, and server actions.
 - Background workers: `inngest/functions/` implements scheduled tasks and async review pipelines.
 - Database: Prisma with a relational DB (Postgres recommended) for users, repos, reviews, and subscriptions.
 - Vector store: Pinecone (or equivalent) stores embeddings for repository content to enable RAG lookups.
 - AI layer: `module/ai/` contains the retrieval + generation pipeline that composes prompts with retrieved context.
-- Integrations: GitHub (API + webhooks), Stripe (checkout + webhooks), and an LLM provider (OpenAI or other).
+- Integrations: GitHub (API + webhooks), Razorpay (checkout + webhooks), and an LLM provider (OpenAI or other).
 
 ## Tech stack
 
@@ -29,7 +29,7 @@ AICodeReview is a developer-focused web application that automates repository an
 - Vector DB: Pinecone
 - Background jobs / orchestration: Inngest
 - AI / LLM: Provider configurable via environment (OpenAI, etc.)
-- Payments: Stripe
+- Payments: Razorpay
 
 ## Repository overview (where to look)
 
@@ -40,7 +40,7 @@ AICodeReview is a developer-focused web application that automates repository an
 - GitHub helpers: `module/github/lib/github.ts`
 - Review & repository domain logic: `module/review/`, `module/repository/`
 - Database schema & migrations: `prisma/schema.prisma` and `prisma/migrations/`
-- Server utilities and integrations: `lib/` (e.g., `lib/db.ts`, `lib/stripe.ts`, `lib/auth.ts`)
+- Server utilities and integrations: `lib/` (e.g., `lib/db.ts`, `lib/razorpay.ts`, `lib/auth.ts`)
 
 ## Getting started (local development)
 
@@ -61,8 +61,9 @@ PINECONE_API_KEY=
 PINECONE_ENV=us-west1-gcp
 PINECONE_INDEX=aicodereview
 INNGEST_API_KEY=
-STRIPE_SECRET_KEY=
-STRIPE_WEBHOOK_SECRET=
+RAZORPAY_KEY_ID=
+RAZORPAY_KEY_SECRET=
+RAZORPAY_WEBHOOK_SECRET=
 GITHUB_TOKEN= # or GITHUB_APP_ID + GITHUB_APP_PRIVATE_KEY
 OPENAI_API_KEY= # or LLM provider key
 NEXTAUTH_SECRET= # if using NextAuth or similar
@@ -87,7 +88,7 @@ Open `http://localhost:3000`.
 ## Running background workers & handling webhooks
 
 - Background functions live under `inngest/functions/` — use Inngest's local runner or deploy the worker as a serverless function according to Inngest docs.
-- For local webhook testing (Stripe / GitHub), use a tunneling tool (e.g., `ngrok`) and configure provider dashboard webhook URLs and secrets to match your `app/api/*` webhook endpoints.
+- For local webhook testing (Razorpay / GitHub), use a tunneling tool (e.g., `ngrok`) and configure provider dashboard webhook URLs and secrets to match your `app/api/*` webhook endpoints.
 
 ## Development commands (common)
 
@@ -118,7 +119,7 @@ Check `package.json` for exact script names used in this repo.
 ## Security & best practices
 
 - Do not commit `.env` or secrets to source control.
-- Validate webhook signatures (Stripe/GitHub) in `app/api/*` endpoints.
+- Validate webhook signatures (Razorpay/GitHub) in `app/api/*` endpoints.
 - Use minimal permissions for GitHub tokens (only the scopes required).
 
 ## Troubleshooting
@@ -144,7 +145,7 @@ Add a `LICENSE` file at the repository root to state your desired license (MIT, 
 
 ## Acknowledgements
 
-Built with Next.js, Prisma, Pinecone, Inngest, Tailwind, and Stripe. AI pipelines are provider-agnostic; configure an LLM key in your environment.
+Built with Next.js, Prisma, Pinecone, Inngest, Tailwind, and Razorpay. AI pipelines are provider-agnostic; configure an LLM key in your environment.
 
 ----
 

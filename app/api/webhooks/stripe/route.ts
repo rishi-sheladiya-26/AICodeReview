@@ -2,20 +2,20 @@ import crypto from "node:crypto";
 import { NextRequest, NextResponse } from "next/server";
 import prisma from "@/lib/db";
 
+type RazorpayNotes = {
+  userId?: string;
+};
+
 type RazorpayWebhookPayload = {
   payload?: {
     payment?: {
       entity?: {
-        notes?: {
-          userId?: string;
-        };
+        notes?: RazorpayNotes;
       };
     };
   };
   payment?: {
-    notes?: {
-      userId?: string;
-    };
+    notes?: RazorpayNotes;
   };
   userId?: string;
 };
@@ -44,8 +44,12 @@ export async function POST(req: NextRequest) {
   }
 
   const paymentEntity =
-    payload?.payload?.payment?.entity ?? payload?.payment ?? payload;
-  const userId = paymentEntity?.notes?.userId ?? payload?.userId;
+    payload?.payload?.payment?.entity ?? payload?.payment ?? null;
+
+  const userId =
+    (paymentEntity && "notes" in paymentEntity
+      ? paymentEntity.notes?.userId
+      : undefined) ?? payload?.userId;
 
   if (!userId) {
     return NextResponse.json({ received: true });

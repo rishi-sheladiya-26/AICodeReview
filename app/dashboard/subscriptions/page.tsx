@@ -45,6 +45,7 @@ function SubscriptionPage() {
   const [error, setError] = useState<string | null>(null);
   const [currentTier, setCurrentTier] = useState<"FREE" | "PRO" | null>(null);
   const [isLoadingStats, setIsLoadingStats] = useState(true);
+  const paymentConfigured = Boolean(process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID);
 
   useEffect(() => {
     async function fetchUserTier() {
@@ -248,15 +249,17 @@ function SubscriptionPage() {
                 {tier.name === "PRO" && (
                   <Button
                     onClick={handleUpgrade}
-                    disabled={loading || isCurrentPlan}
+                    disabled={loading || isCurrentPlan || !paymentConfigured}
                     className={`w-full py-2 rounded-md font-medium transition-all ${
-                      isCurrentPlan
+                      isCurrentPlan || !paymentConfigured
                         ? "bg-gray-100 text-gray-500 cursor-not-allowed"
                         : "bg-blue-600 text-white hover:bg-blue-700"
                     }`}
                   >
                     {isCurrentPlan ? (
                       "PRO Member"
+                    ) : !paymentConfigured ? (
+                      "Payment setup pending"
                     ) : loading ? (
                       <span className="flex items-center justify-center gap-2">
                         <Loader2 className="w-4 h-4 animate-spin" />

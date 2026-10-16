@@ -11,6 +11,7 @@ export default function LoginPage() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
+  const [githubError, setGithubError] = useState<string | null>(null);
   const [errors, setErrors] = useState<{ email?: string; password?: string }>(
     {}
   );
@@ -35,12 +36,28 @@ export default function LoginPage() {
   };
 
   const handleGithubSignIn = async () => {
+    setGithubError(null);
+    setLoading(true);
+
     try {
       await signIn.social({
         provider: "github",
       });
     } catch (error) {
       console.error("Error during GitHub sign-in:", error);
+
+      const message =
+        error instanceof Error
+          ? error.message
+          : "GitHub sign-in failed. Please check the GitHub OAuth setup or callback URL.";
+
+      setGithubError(
+        message.includes("redirect") || message.includes("callback")
+          ? "GitHub sign-in failed because the callback URL does not match. Please check the GitHub OAuth app settings."
+          : "GitHub sign-in failed. Please try again or check the GitHub OAuth configuration."
+      );
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -202,8 +219,14 @@ export default function LoginPage() {
             }`}
           >
             <Github className="h-5 w-5 mr-2" />
-            Continue with GitHub
+            {loading ? "Connecting to GitHub..." : "Continue with GitHub"}
           </button>
+
+          {githubError && (
+            <div className="mt-3 rounded-lg border border-red-200 bg-red-50 px-3 py-2 text-sm text-red-700">
+              {githubError}
+            </div>
+          )}
 
           {/* Footer */}
           <p className="mt-8 text-center text-xs text-gray-500">

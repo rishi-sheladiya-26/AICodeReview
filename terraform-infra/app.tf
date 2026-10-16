@@ -1,0 +1,71 @@
+resource "aws_iam_role" "RepoPilot_ec2_role" {
+  name = "RepoPilot-ec2-role"
+
+  assume_role_policy = jsonencode({
+    Version = "2012-10-17"
+    Statement = [{
+      Action = "sts:AssumeRole"
+      Effect = "Allow"
+      Principal = {
+        Service = "ec2.amazonaws.com"
+      }
+    }]
+  })
+}
+
+resource "aws_iam_role_policy" "RepoPilot_ssm_policy" {
+  name = "RepoPilot-ssm-policy"
+  role = aws_iam_role.RepoPilot_ec2_role.id
+
+  policy = jsonencode({
+    Version = "2012-10-17"
+    Statement = [{
+      Effect = "Allow"
+      Action = [
+        "ssm:GetParameter",
+        "ssm:GetParameters"
+      ]
+      Resource = [
+          aws_ssm_parameter.RepoPilot_env.arn,
+          aws_ssm_parameter.nginx_cert.arn,
+          aws_ssm_parameter.nginx_key.arn
+      ]
+    }]
+  })
+}
+
+resource "aws_iam_instance_profile" "RepoPilot_profile" {
+  name = "RepoPilot-instance-profile"
+  role = aws_iam_role.RepoPilot_ec2_role.name
+}
+
+resource "aws_instance" "app" {
+  ami           = "ami-0f5ee92e2d63afc18"
+  instance_type = var.instance_type
+  key_name      = var.key_name
+
+  vpc_security_group_ids = [
+    aws_security_group.RepoPilot_sg.id
+  ]
+
+  iam_instance_profile = aws_iam_instance_profile.RepoPilot_profile.name
+
+  root_block_device {
+    volume_size = 30
+    volume_type = "gp3"
+  }
+
+  user_data = templatefile("user-data/app.sh", {
+    AST_IP = aws_instance.ast.private_ip
+  })
+
+  tags = {
+    Name = "RepoPilot-app"
+  }
+
+  depends_on = [
+    aws_ssm_parameter.RepoPilot_env,
+    aws_ssm_parameter.nginx_cert,
+    aws_ssm_parameter.nginx_key
+  ]
+}

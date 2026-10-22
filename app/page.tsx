@@ -17,32 +17,34 @@ import { requireUnAuth } from '@/module/utils/auth-utils'
 
 
 export default function LandingPage() {
+  const footerGroups: Array<{ heading: string; items: string[] }> = [
+    { heading: "Product", items: ["Features", "Pricing", "Security"] },
+    { heading: "Company", items: ["About", "Blog", "Careers"] },
+    { heading: "Legal", items: ["Privacy", "Terms"] },
+  ];
+
   useEffect(() => {
     requireUnAuth();
   }, []);
 
   return (
-    <div className="flex flex-col min-h-screen selection:bg-primary/20 mt-4">
-      {/* Navigation */}
-      <header className="sticky top-0 z-50 w-full border-b bg-background/80 backdrop-blur-md shadow-2xl">
-        <div className="container mx-auto px-4 sm:px-6 lg:px-8 flex h-16 items-center justify-between">
-          <div className="flex items-center gap-2">
-            <Rat className="h-14 w-14 text-blue-600" />
-            <span className="text-4xl font-semibold text-gray-900 tracking-tight mt-3 ml-1">
+    <div className="flex min-h-screen flex-col bg-transparent selection:bg-primary/20">
+      <header className="sticky top-0 z-50 w-full border-b border-border/70 bg-background/75 backdrop-blur-xl">
+        <div className="container mx-auto flex h-16 items-center justify-between px-4 sm:px-6 lg:px-8">
+          <div className="flex items-center gap-3">
+            <div className="rounded-2xl bg-blue-50 p-2 shadow-sm ring-1 ring-blue-100">
+              <Rat className="h-8 w-8 text-blue-600" />
+            </div>
+            <span className="text-2xl font-semibold tracking-tight text-slate-900 md:text-3xl">
               RepoPilot
             </span>
           </div>
-          <nav className="hidden md:flex items-center gap-8 text-sm font-medium text-muted-foreground">
-            <Link
-              href="#features"
-              className="hover:text-primary transition-colors"
-            >
+
+          <nav className="hidden items-center gap-8 text-sm font-medium text-slate-600 md:flex">
+            <Link href="#features" className="transition-colors hover:text-primary">
               Features
             </Link>
-            <Link
-              href="#how-it-works"
-              className="hover:text-primary transition-colors"
-            >
+            <Link href="#how-it-works" className="transition-colors hover:text-primary">
               How it works
             </Link>
           </nav>
@@ -50,69 +52,92 @@ export default function LandingPage() {
       </header>
 
       <main className="flex-1">
-        {/* Hero Section */}
-        <section className="relative pt-20 pb-16 md:pt-32 md:pb-24 overflow-hidden">
-          <div className="absolute inset-0 -z-10 bg-[radial-gradient(45%_45%_at_50%_50%,var(--color-primary)_0%,transparent_100%)] opacity-[0.03]" />
-          <div className="container mx-auto px-4 sm:px-6 lg:px-8 text-center">
-            <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold tracking-tight mb-6 text-balance italic">
-              The AI code reviewer <br />
-              <span className="text-primary italic">
+        <section className="relative overflow-hidden pb-16 pt-20 md:pb-24 md:pt-28">
+          <div className="absolute inset-x-0 top-0 -z-10 h-[520px] bg-[radial-gradient(circle_at_top,_rgba(59,130,246,0.18),_transparent_44%)]" />
+          <div className="container mx-auto px-4 text-center sm:px-6 lg:px-8">
+            <div className="mx-auto mb-6 inline-flex items-center gap-2 rounded-full border border-blue-200 bg-blue-50 px-3 py-1.5 text-xs font-medium text-blue-700 shadow-sm">
+              <Sparkles className="h-3.5 w-3.5" />
+              AI code review for modern engineering teams
+            </div>
+
+            <h1 className="mx-auto max-w-5xl text-4xl font-black tracking-[-0.08em] text-slate-950 md:text-6xl lg:text-7xl">
+              The AI code reviewer
+              <span className="mt-2 block bg-gradient-to-r from-blue-600 via-indigo-600 to-violet-600 bg-clip-text text-transparent">
                 your team will actually trust
               </span>
             </h1>
-            <p className="max-w-2xl mx-auto text-lg md:text-xl text-muted-foreground mb-10 text-pretty">
+
+            <p className="mx-auto mt-6 max-w-2xl text-base text-slate-600 md:text-xl">
               Automate code reviews, catch critical bugs, and enforce quality
-              standards on every pull request. Ship better code, 10x faster.
+              standards on every pull request. Ship better code, faster.
             </p>
-            <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-16">
+
+            <div className="mt-10 flex flex-col items-center justify-center gap-4 sm:flex-row">
               <Link href="/dashboard">
                 <Button
                   size="lg"
-                  className="h-12 px-8 text-base shadow-xl shadow-primary/20 border rounded-2xl"
+                  className="h-12 rounded-2xl bg-gradient-to-r from-blue-600 to-indigo-600 px-8 text-base font-semibold text-white shadow-lg shadow-blue-600/20 transition-all duration-200 hover:-translate-y-0.5 hover:shadow-xl hover:shadow-blue-600/30"
                 >
-                  <p className="text-lg">Start Reviewing</p>
+                  Start Reviewing
                 </Button>
               </Link>
               <Button
                 size="lg"
                 variant="outline"
-                className="h-12 px-8 text-base bg-transparent border rounded-2xl"
+                className="h-12 rounded-2xl border-slate-200 bg-white/80 px-8 text-base font-semibold text-slate-700 shadow-sm transition-all duration-200 hover:-translate-y-0.5 hover:border-blue-200 hover:bg-blue-50"
               >
-                <p className="text-lg">View Sample</p>
+                View Sample
               </Button>
             </div>
 
-            {/* Mockup Preview */}
-            <div className="relative mx-auto max-w-5xl group">
-              <div className="absolute -inset-1 from-primary/20 to-primary/5 rounded-2xl blur-2xl opacity-50 transition duration-1000 group-hover:opacity-70" />
-              <div className="relative border rounded-xl bg-card shadow-2xl overflow-hidden">
-                <div className="flex items-center gap-2 px-4 py-2 border-b bg-muted/30">
+            <div className="relative mx-auto mt-16 max-w-5xl">
+              <div className="absolute -inset-4 rounded-[2rem] bg-gradient-to-r from-blue-500/10 via-indigo-500/10 to-violet-500/10 blur-2xl" />
+              <div className="relative overflow-hidden rounded-[1.5rem] border border-slate-200 bg-white/80 shadow-[0_30px_80px_-30px_rgba(37,99,235,0.35)] backdrop-blur-sm">
+                <div className="flex items-center gap-2 border-b border-slate-200 bg-slate-50/80 px-4 py-2.5">
                   <div className="flex gap-1.5">
-                    <div className="h-3 w-3 rounded-full bg-red-500/90" />
-                    <div className="h-3 w-3 rounded-full bg-amber-500/90" />
-                    <div className="h-3 w-3 rounded-full bg-green-500/90" />
+                    <div className="h-3 w-3 rounded-full bg-red-400" />
+                    <div className="h-3 w-3 rounded-full bg-amber-400" />
+                    <div className="h-3 w-3 rounded-full bg-emerald-400" />
                   </div>
-                  <div className="ml-4 h-4 w-48 rounded bg-muted animate-pulse" />
+                  <div className="ml-4 h-2.5 w-40 rounded-full bg-slate-200" />
                 </div>
-                <div className="p-4 md:p-8 space-y-6">
-                  <div className="flex items-start gap-4 p-4 rounded-lg bg-primary/5 border border-primary/10">
-                    <div className="mt-1 bg-primary p-1.5 rounded-full">
-                      <Rat className="h-4 w-4 text-primary-foreground" />
+
+                <div className="space-y-5 p-4 md:p-8">
+                  <div className="flex items-start gap-4 rounded-2xl border border-blue-100 bg-blue-50/70 p-4">
+                    <div className="mt-1 rounded-xl bg-blue-600 p-2 text-white shadow-sm">
+                      <Rat className="h-4 w-4" />
                     </div>
                     <div className="text-left">
-                      <p className="font-semibold text-sm mb-1">RepoPilot</p>
-                      <p className="text-sm text-muted-foreground leading-relaxed">
+                      <p className="mb-1 text-sm font-semibold text-slate-900">RepoPilot</p>
+                      <p className="text-sm leading-relaxed text-slate-600">
                         I found a potential memory leak in{" "}
-                        <code className="text-primary px-1 font-mono">
+                        <code className="rounded bg-white px-1.5 py-0.5 font-mono text-xs text-blue-700 ring-1 ring-blue-100">
                           useDataHook.ts
                         </code>
-                        . The useEffect cleanup function is missing the event
-                        listener removal.
+                        . The cleanup function is missing the event listener removal.
                       </p>
                     </div>
                   </div>
-                  <div className="space-y-3">
-                    <div className="h-4 w-full bg-muted rounded-full" />
+
+                  <div className="grid gap-3 md:grid-cols-[1.5fr_0.75fr]">
+                    <div className="rounded-2xl border border-slate-200 bg-slate-50 p-4">
+                      <div className="mb-3 flex items-center justify-between text-xs uppercase tracking-[0.18em] text-slate-400">
+                        <span>Risk</span>
+                        <span className="rounded-full bg-amber-100 px-2 py-1 font-medium text-amber-700">Medium</span>
+                      </div>
+                      <div className="space-y-2">
+                        <div className="h-2.5 w-full rounded-full bg-slate-200">
+                          <div className="h-2.5 w-[72%] rounded-full bg-gradient-to-r from-amber-400 to-orange-500" />
+                        </div>
+                        <div className="h-2.5 w-[88%] rounded-full bg-slate-200" />
+                        <div className="h-2.5 w-[64%] rounded-full bg-slate-200" />
+                      </div>
+                    </div>
+
+                    <div className="rounded-2xl border border-emerald-100 bg-emerald-50 p-4 text-left">
+                      <p className="text-xs uppercase tracking-[0.18em] text-emerald-700">Fix confidence</p>
+                      <p className="mt-3 text-3xl font-bold text-emerald-600">94%</p>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -120,293 +145,154 @@ export default function LandingPage() {
           </div>
         </section>
 
-        {/* Stats Section */}
-        <section className="py-12 border shadow-2xl rounded-2xl bg-muted/20 w-[1300px] mx-auto">
-          <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
-              <div>
-                <p className="text-3xl font-bold">50%</p>
-                <p className="text-sm text-muted-foreground uppercase tracking-widest mt-1">
-                  Faster Review Cycles
+        <section className="mx-auto mt-4 w-full max-w-6xl px-4 pb-10 sm:px-6 lg:px-8">
+          <div className="grid gap-4 rounded-[1.75rem] border border-slate-200 bg-white/70 p-6 shadow-[0_20px_60px_-35px_rgba(15,23,42,0.35)] backdrop-blur-sm md:grid-cols-4 md:p-8">
+            {[
+              { value: "50%", label: "Faster review cycles" },
+              { value: "25%", label: "Work efficiency boost" },
+              { value: "90%", label: "Security findings caught" },
+              { value: "3.5-4h", label: "Saved per week" },
+            ].map((stat) => (
+              <div key={stat.label} className="rounded-2xl border border-slate-100 bg-slate-50/80 p-5 text-center transition-transform duration-200 hover:-translate-y-1">
+                <p className="text-3xl font-black tracking-tight text-slate-900">{stat.value}</p>
+                <p className="mt-2 text-xs font-medium uppercase tracking-[0.16em] text-slate-500">
+                  {stat.label}
                 </p>
               </div>
-              <div>
-                <p className="text-3xl font-bold">25%</p>
-                <p className="text-sm text-muted-foreground uppercase tracking-widest mt-1">
-                  Work Efficiency Boost
-                </p>
-              </div>
-              <div>
-                <p className="text-3xl font-bold">Up to 90%</p>
-                <p className="text-sm text-muted-foreground uppercase tracking-widest mt-1">
-                  Security Finding Rate
-                </p>
-              </div>
-              <div>
-                <p className="text-3xl font-bold">
-                  3.5 - 4 <span className="text-xl">Hours/Week</span>
-                </p>
-                <p className="text-sm text-muted-foreground uppercase tracking-widest mt-1">
-                  Developer Time Saved
-                </p>
-              </div>
-            </div>
+            ))}
           </div>
         </section>
 
-        {/* How it Works */}
-        <section id="how-it-works" className="py-24 mt-5">
+        <section id="how-it-works" className="py-20">
           <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-            <div className="text-center max-w-3xl mx-auto mb-16">
-              <h2 className="text-3xl md:text-4xl font-bold mb-4 italic">
+            <div className="mx-auto mb-14 max-w-3xl text-center">
+              <h2 className="text-3xl font-bold tracking-tight text-slate-950 md:text-4xl">
                 Integrate in seconds.
               </h2>
-              <p className="text-muted-foreground text-lg">
-                CodePulse plugs directly into your GitHub workflow. No complex
-                configuration or context-switching required.
+              <p className="mt-4 text-lg text-slate-600">
+                RepoPilot plugs directly into your GitHub workflow with zero heavy setup.
               </p>
             </div>
-            <div className="grid md:grid-cols-3 gap-12 relative">
-              <div className="hidden md:block absolute top-1/4 left-1/3 right-1/4 h-0.5 from-primary/10 via-primary/20 to-primary/10 -z-10" />
+
+            <div className="grid gap-8 md:grid-cols-3">
               {[
                 {
                   icon: <Github className="h-6 w-6" />,
-                  title: "Connect Repo",
-                  desc: "One-click OAuth connection to your GitHub organization or specific repositories.",
+                  title: "Connect repo",
+                  desc: "One-click GitHub OAuth and instant repo access for your team.",
                 },
                 {
                   icon: <MessageSquareCode className="h-6 w-6" />,
                   title: "Submit PR",
-                  desc: "Open a pull request as usual. CodePulse automatically starts analyzing your changes.",
+                  desc: "Open a pull request as usual and let RepoPilot start analyzing immediately.",
                 },
                 {
                   icon: <Sparkles className="h-6 w-6" />,
-                  title: "Get Insights",
-                  desc: "Receive inline comments with actionable suggestions, security alerts, and performance tips.",
+                  title: "Get insights",
+                  desc: "Receive clear, prioritized suggestions that developers can act on quickly.",
                 },
-              ].map((step, i) => (
-                <div key={i} className="flex flex-col items-center text-center">
-                  <div className="h-14 w-14 rounded-2xl bg-primary/5 border border-primary/10 flex items-center justify-center text-primary mb-6 shadow-sm">
+              ].map((step, index) => (
+                <div key={step.title} className="group rounded-[1.5rem] border border-slate-200 bg-white/80 p-6 text-center shadow-sm transition-all duration-200 hover:-translate-y-1 hover:shadow-xl hover:shadow-blue-100/80">
+                  <div className="mx-auto mb-5 flex h-14 w-14 items-center justify-center rounded-2xl bg-gradient-to-br from-blue-600 to-indigo-600 text-white shadow-lg shadow-blue-600/20">
                     {step.icon}
                   </div>
-                  <h3 className="text-xl font-semibold mb-3">{step.title}</h3>
-                  <p className="text-muted-foreground leading-relaxed">
-                    {step.desc}
-                  </p>
+                  <div className="mb-2 text-xs font-semibold uppercase tracking-[0.2em] text-blue-600">
+                    0{index + 1}
+                  </div>
+                  <h3 className="mb-3 text-xl font-semibold text-slate-900">{step.title}</h3>
+                  <p className="text-slate-600">{step.desc}</p>
                 </div>
               ))}
             </div>
           </div>
         </section>
 
-        {/* Features */}
-        <section id="features" className="py-24 bg-muted/30">
+        <section id="features" className="bg-slate-50/80 py-20">
           <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-            <div className="flex flex-col md:flex-row gap-16 items-center">
-              <div className="md:w-1/2 space-y-8">
-                <h2 className="text-3xl md:text-5xl font-bold leading-tight italic">
-                  Everything you need to ship quality code.
+            <div className="mb-12 flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
+              <div className="max-w-2xl">
+                <p className="text-sm font-semibold uppercase tracking-[0.2em] text-blue-600">Features</p>
+                <h2 className="mt-3 text-3xl font-bold tracking-tight text-slate-950 md:text-5xl">
+                  Everything you need to ship cleaner code.
                 </h2>
-                <div className="grid gap-6">
-                  {[
-                    {
-                      icon: <Zap className="h-5 w-5" />,
-                      title: "Real-time Feedback",
-                      desc: "Get review comments within minutes of pushing code to your PR.",
-                    },
-                    {
-                      icon: <ShieldCheck className="h-5 w-5" />,
-                      title: "Security Deep-Scan",
-                      desc: "Detect SQL injection, XSS, and hardcoded secrets before they hit production.",
-                    },
-                    {
-                      icon: <History className="h-5 w-5" />,
-                      title: "Codebase Context",
-                      desc: "Our AI understands your whole project structure, not just isolated files.",
-                    },
-                  ].map((feature, i) => (
-                    <div
-                      key={i}
-                      className="flex gap-4 p-4 rounded-xl hover:bg-background transition-colors group"
-                    >
-                      <div className="h-10 w-10 shrink-0 rounded-lg bg-primary/10 flex items-center justify-center text-primary group-hover:bg-primary group-hover:text-primary-foreground transition-colors">
-                        {feature.icon}
-                      </div>
-                      <div>
-                        <h4 className="font-semibold mb-1">{feature.title}</h4>
-                        <p className="text-muted-foreground text-sm">
-                          {feature.desc}
-                        </p>
-                      </div>
-                    </div>
-                  ))}
+              </div>
+            </div>
+
+            <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
+              {[
+                {
+                  icon: <Zap className="h-5 w-5" />,
+                  title: "Real-time feedback",
+                  desc: "Get instant review comments as soon as a PR is opened or updated.",
+                  tone: "blue",
+                },
+                {
+                  icon: <ShieldCheck className="h-5 w-5" />,
+                  title: "Security deep-scan",
+                  desc: "Catch risky patterns before production with AI-assisted audit checks.",
+                  tone: "emerald",
+                },
+                {
+                  icon: <History className="h-5 w-5" />,
+                  title: "Repo context",
+                  desc: "Understand code history and architecture across your project with confidence.",
+                  tone: "violet",
+                },
+              ].map((feature) => (
+                <div key={feature.title} className="rounded-[1.5rem] border border-slate-200 bg-white p-6 shadow-sm transition-all duration-200 hover:-translate-y-1 hover:shadow-xl hover:shadow-slate-200">
+                  <div className={`mb-4 flex h-11 w-11 items-center justify-center rounded-xl bg-${feature.tone}-100 text-${feature.tone}-600`}>
+                    {feature.icon}
+                  </div>
+                  <h3 className="mb-3 text-xl font-semibold text-slate-900">{feature.title}</h3>
+                  <p className="text-slate-600">{feature.desc}</p>
                 </div>
-              </div>
-              <div className="md:w-1/2 relative">
-                <div className="absolute inset-0 bg-primary/10 blur-3xl rounded-full" />
-                <Card className="relative border-2 border-primary/10 shadow-2xl overflow-hidden">
-                  <CardContent className="p-0">
-                    <div className="bg-muted p-3 flex items-center justify-between border-b">
-                      <div className="flex gap-1.5">
-                        <div className="h-2 w-2 rounded-full bg-red-500/90" />
-                        <div className="h-2 w-2 rounded-full bg-amber-500/90" />
-                        <div className="h-2 w-2 rounded-full bg-green-500/90" />
-                      </div>
-                      <span className="text-[10px] text-muted-foreground font-mono">
-                        PR #42 - Updated Auth Logic
-                      </span>
-                    </div>
-                    <div className="p-6 font-mono text-sm space-y-3">
-                      <div className="opacity-50 line-through text-red-500 bg-red-500/5 p-1">
-                        - const user = await db.query(`SELECT * FROM users WHERE
-                        id = $userId`);
-                      </div>
-                      <div className="text-green-500 bg-green-500/5 p-1">
-                        + const user = await db.query(&apos;SELECT * FROM users
-                        WHERE id = $1&apos;, [userId]);
-                      </div>
-                      <div className="pt-4 mt-4 border-t border-primary/10 italic text-muted-foreground">
-                        <Rat className="inline h-3 w-3 mr-2 text-primary" />
-                        Fixed SQL injection vulnerability by using parameterized
-                        queries.
-                      </div>
-                    </div>
-                  </CardContent>
-                </Card>
-              </div>
+              ))}
             </div>
           </div>
         </section>
       </main>
 
-      {/* Footer */}
-      <footer className="bg-muted/50 border-t py-12">
+      <footer className="border-t border-slate-200 bg-white/80 py-12 backdrop-blur-sm">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex flex-col md:flex-row justify-between gap-12 mb-12">
-            <div className="space-y-4 max-w-xs">
-              <div className="flex items-center gap-2">
-                <div className="bg-primary p-1 rounded-lg">
-                  <Rat className="h-4 w-4 text-primary-foreground" />
+          <div className="flex flex-col gap-10 md:flex-row md:justify-between">
+            <div className="max-w-sm">
+              <div className="flex items-center gap-3">
+                <div className="rounded-xl bg-blue-600 p-2 text-white">
+                  <Rat className="h-4 w-4" />
                 </div>
-                <span className="font-bold tracking-tight">RepoPilot</span>
+                <span className="text-lg font-semibold text-slate-900">RepoPilot</span>
               </div>
-              <p className="text-sm text-muted-foreground leading-relaxed">
-                Empowering engineering teams with AI-driven code intelligence
-                and security auditing.
+              <p className="mt-4 text-sm leading-6 text-slate-600">
+                Empowering engineering teams with AI-driven code intelligence and security auditing.
               </p>
             </div>
-            <div className="grid grid-cols-2 sm:grid-cols-3 gap-12">
-              <div className="space-y-4">
-                <h4 className="text-sm font-semibold uppercase tracking-wider text-foreground">
-                  Product
-                </h4>
-                <ul className="space-y-2 text-sm text-muted-foreground">
-                  <li>
-                    <Link
-                      href="#"
-                      className="hover:text-primary transition-colors"
-                    >
-                      Features
-                    </Link>
-                  </li>
-                  <li>
-                    <Link
-                      href="#"
-                      className="hover:text-primary transition-colors"
-                    >
-                      Pricing
-                    </Link>
-                  </li>
-                  <li>
-                    <Link
-                      href="#"
-                      className="hover:text-primary transition-colors"
-                    >
-                      Security
-                    </Link>
-                  </li>
-                </ul>
-              </div>
-              <div className="space-y-4">
-                <h4 className="text-sm font-semibold uppercase tracking-wider text-foreground">
-                  Company
-                </h4>
-                <ul className="space-y-2 text-sm text-muted-foreground">
-                  <li>
-                    <Link
-                      href="#"
-                      className="hover:text-primary transition-colors"
-                    >
-                      About
-                    </Link>
-                  </li>
-                  <li>
-                    <Link
-                      href="#"
-                      className="hover:text-primary transition-colors"
-                    >
-                      Blog
-                    </Link>
-                  </li>
-                  <li>
-                    <Link
-                      href="#"
-                      className="hover:text-primary transition-colors"
-                    >
-                      Careers
-                    </Link>
-                  </li>
-                </ul>
-              </div>
-              <div className="space-y-4">
-                <h4 className="text-sm font-semibold uppercase tracking-wider text-foreground">
-                  Legal
-                </h4>
-                <ul className="space-y-2 text-sm text-muted-foreground">
-                  <li>
-                    <Link
-                      href="#"
-                      className="hover:text-primary transition-colors"
-                    >
-                      Privacy
-                    </Link>
-                  </li>
-                  <li>
-                    <Link
-                      href="#"
-                      className="hover:text-primary transition-colors"
-                    >
-                      Terms
-                    </Link>
-                  </li>
-                </ul>
-              </div>
+
+            <div className="grid gap-10 sm:grid-cols-3">
+              {footerGroups.map(({ heading, items }) => (
+                <div key={heading}>
+                  <h4 className="mb-4 text-xs font-semibold uppercase tracking-[0.18em] text-slate-500">
+                    {heading}
+                  </h4>
+                  <ul className="space-y-2 text-sm text-slate-600">
+                    {items.map((item) => (
+                      <li key={item}>
+                        <Link href="#" className="transition-colors hover:text-primary">
+                          {item}
+                        </Link>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              ))}
             </div>
           </div>
-          <div className="flex flex-col sm:flex-row justify-between items-center gap-4 pt-8 border-t text-sm text-muted-foreground">
-            <p>
-              All rights reserved{" "}
-              <a href="https://repopilot.team">@RepoPilotTeam</a>
-            </p>
+
+          <div className="mt-10 flex flex-col items-center justify-between gap-4 border-t border-slate-200 pt-6 text-sm text-slate-500 sm:flex-row">
+            <p>All rights reserved <a href="https://repopilot.team" className="font-medium text-slate-700 hover:text-primary">@RepoPilotTeam</a></p>
             <div className="flex gap-6">
-              <Link
-                href="https://repopilot.team"
-                className="hover:text-primary transition-colors"
-              >
-                Website
-              </Link>
-              <Link
-                href="https://github.com/repopilot-team"
-                className="hover:text-primary transition-colors"
-              >
-                GitHub
-              </Link>
-              <Link
-                href="https://www.linkedin.com/company/repopilot-team"
-                className="hover:text-primary transition-colors"
-              >
-                LinkedIn
-              </Link>
+              <Link href="https://repopilot.team" className="transition-colors hover:text-primary">Website</Link>
+              <Link href="https://github.com/repopilot-team" className="transition-colors hover:text-primary">GitHub</Link>
+              <Link href="https://www.linkedin.com/company/repopilot-team" className="transition-colors hover:text-primary">LinkedIn</Link>
             </div>
           </div>
         </div>

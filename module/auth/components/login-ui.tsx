@@ -62,18 +62,20 @@ export default function LoginPage() {
   };
 
   return (
-    <div className="min-h-screen bg-white flex overflow-hidden">
-      <div className="hidden lg:flex lg:w-3/5 bg-gradient-to-br from-blue-50 to-blue-100 items-center justify-center p-12">
+    <div className="flex min-h-screen overflow-hidden bg-[radial-gradient(circle_at_top,_rgba(59,130,246,0.12),_transparent_38%)]">
+      <div className="hidden lg:flex lg:w-3/5 items-center justify-center bg-gradient-to-br from-blue-50 via-indigo-50 to-sky-100 p-12">
         <div className="w-full max-w-2xl">
           <AIIllustration />
         </div>
       </div>
 
-      <div className="w-full lg:w-2/5 flex items-center justify-center p-6 sm:p-8">
-        <div className="w-full max-w-md">
+      <div className="flex w-full items-center justify-center p-6 sm:p-8 lg:w-2/5">
+        <div className="w-full max-w-md rounded-[2rem] border border-slate-200 bg-white/85 p-5 shadow-[0_30px_80px_-40px_rgba(37,99,235,0.4)] backdrop-blur-md sm:p-7">
           <div className="text-center mb-8 animate-fade-in">
             <div className="flex items-center justify-center gap-x-3">
-              <Rat className="h-16 w-16 text-blue-600" />
+              <div className="rounded-2xl bg-blue-100 p-2 shadow-sm">
+                <Rat className="h-10 w-10 text-blue-600" />
+              </div>
               <h1 className="text-4xl font-bold text-gray-900 tracking-tight mt-2">
                 RepoPilot
               </h1>
@@ -159,10 +161,10 @@ export default function LoginPage() {
             <Button
               type="submit"
               disabled={loading}
-              className={`w-full py-2.5 px-4 rounded-lg font-semibold text-sm transition-all duration-300 flex items-center justify-center ${
+              className={`w-full py-2.5 px-4 rounded-xl font-semibold text-sm transition-all duration-200 flex items-center justify-center shadow-sm hover:-translate-y-0.5 ${
                 loading
                   ? "bg-blue-400 text-white cursor-not-allowed"
-                  : "bg-blue-600 text-white hover:bg-blue-700 active:bg-blue-800 focus:outline-none focus:ring-4 focus:ring-blue-200"
+                  : "bg-gradient-to-r from-blue-600 to-indigo-600 text-white hover:shadow-lg hover:shadow-blue-600/20 active:translate-y-0 focus:outline-none focus:ring-4 focus:ring-blue-200"
               }`}
             >
               {loading ? (
@@ -212,10 +214,10 @@ export default function LoginPage() {
             type="button"
             onClick={handleGithubSignIn}
             disabled={loading}
-            className={`w-full py-2.5 px-4 rounded-lg font-semibold text-sm transition-all duration-300 flex items-center justify-center border-2 cursor-pointer ${
+            className={`w-full py-2.5 px-4 rounded-xl font-semibold text-sm transition-all duration-200 flex items-center justify-center border-2 cursor-pointer shadow-sm hover:-translate-y-0.5 ${
               loading
                 ? "border-gray-200 text-gray-400 cursor-not-allowed bg-gray-50"
-                : "border-gray-200 text-gray-700 hover:bg-gray-50 active:bg-gray-100 focus:outline-none focus:ring-4 focus:ring-gray-100"
+                : "border-gray-200 text-gray-700 hover:border-blue-200 hover:bg-blue-50 active:translate-y-0 focus:outline-none focus:ring-4 focus:ring-gray-100"
             }`}
           >
             <Github className="h-5 w-5 mr-2" />
